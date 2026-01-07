@@ -1,8 +1,6 @@
-
 {
     "version": "0.2.0",
     "configurations": [
-
         {
             "name": "Sandbox Project",
             "type": "coreclr",
@@ -15,7 +13,6 @@
             "internalConsoleOptions": "neverOpen",
             "stopAtEntry": false
         },
-
         {
             "name": "Week 01: C# Exercise 1",
             "type": "coreclr",
@@ -28,7 +25,6 @@
             "internalConsoleOptions": "neverOpen",
             "stopAtEntry": false
         },
-
         {
             "name": "Week 01: C# Exercise 2",
             "type": "coreclr",
@@ -41,7 +37,6 @@
             "internalConsoleOptions": "neverOpen",
             "stopAtEntry": false
         },
-
         {
             "name": "Week 01: C# Exercise 3",
             "type": "coreclr",
@@ -54,7 +49,6 @@
             "internalConsoleOptions": "neverOpen",
             "stopAtEntry": false
         },
-
         {
             "name": "Week 01: C# Exercise 4",
             "type": "coreclr",
@@ -67,7 +61,6 @@
             "internalConsoleOptions": "neverOpen",
             "stopAtEntry": false
         },
-
         {
             "name": "Week 01: C# Exercise 5",
             "type": "coreclr",
@@ -80,7 +73,6 @@
             "internalConsoleOptions": "neverOpen",
             "stopAtEntry": false
         },
-
         {
             "name": "Week 02: Resumes",
             "type": "coreclr",
@@ -93,7 +85,6 @@
             "internalConsoleOptions": "neverOpen",
             "stopAtEntry": false
         },
-
         {
             "name": "Week 02: Journal",
             "type": "coreclr",
@@ -106,7 +97,6 @@
             "internalConsoleOptions": "neverOpen",
             "stopAtEntry": false
         },
-
         {
             "name": "Week 03: Fractions",
             "type": "coreclr",
@@ -119,7 +109,6 @@
             "internalConsoleOptions": "neverOpen",
             "stopAtEntry": false
         },
-
         {
             "name": "Week 03: Scripture Memorizer",
             "type": "coreclr",
@@ -132,7 +121,6 @@
             "internalConsoleOptions": "neverOpen",
             "stopAtEntry": false
         },
-
         {
             "name": "Week 04: YouTube Videos",
             "type": "coreclr",
@@ -145,7 +133,6 @@
             "internalConsoleOptions": "neverOpen",
             "stopAtEntry": false
         },
-
         {
             "name": "Week 04: Online Ordering",
             "type": "coreclr",
@@ -158,7 +145,6 @@
             "internalConsoleOptions": "neverOpen",
             "stopAtEntry": false
         },
-
         {
             "name": "Week 05: Homework",
             "type": "coreclr",
@@ -171,7 +157,6 @@
             "internalConsoleOptions": "neverOpen",
             "stopAtEntry": false
         },
-
         {
             "name": "Week 05: Mindfulness",
             "type": "coreclr",
@@ -184,7 +169,6 @@
             "internalConsoleOptions": "neverOpen",
             "stopAtEntry": false
         },
-
         {
             "name": "Week 06: Shapes",
             "type": "coreclr",
@@ -197,7 +181,6 @@
             "internalConsoleOptions": "neverOpen",
             "stopAtEntry": false
         },
-
         {
             "name": "Week 06: Eternal Quest",
             "type": "coreclr",
@@ -210,7 +193,6 @@
             "internalConsoleOptions": "neverOpen",
             "stopAtEntry": false
         },
-
         {
             "name": "Week 07: Exercise Tracking",
             "type": "coreclr",
@@ -223,6 +205,55 @@
             "internalConsoleOptions": "neverOpen",
             "stopAtEntry": false
         },
-
+        {
+            "type": "pwa-msedge",
+            "name": "Launch Microsoft Edge",
+            "request": "launch",
+            "runtimeArgs": [
+                "--remote-debugging-port=9222"
+            ],
+            "url": "c:\\Users\\user\\.vscode\\extensions\\ms-edgedevtools.vscode-edge-devtools-2.1.10\\out\\startpage\\index.html", // Provide your project's url to finish configuring
+            "presentation": {
+                "hidden": true
+            }
+        },
+        {
+            "type": "pwa-msedge",
+            "name": "Launch Microsoft Edge in headless mode",
+            "request": "launch",
+            "runtimeArgs": [
+                "--headless",
+                "--remote-debugging-port=9222"
+            ],
+            "url": "c:\\Users\\user\\.vscode\\extensions\\ms-edgedevtools.vscode-edge-devtools-2.1.10\\out\\startpage\\index.html", // Provide your project's url to finish configuring
+            "presentation": {
+                "hidden": true
+            }
+        },
+        {
+            "type": "vscode-edge-devtools.debug",
+            "name": "Open Edge DevTools",
+            "request": "attach",
+            "url": "c:\\Users\\user\\.vscode\\extensions\\ms-edgedevtools.vscode-edge-devtools-2.1.10\\out\\startpage\\index.html", // Provide your project's url to finish configuring
+            "presentation": {
+                "hidden": true
+            }
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Launch Edge Headless and attach DevTools",
+            "configurations": [
+                "Launch Microsoft Edge in headless mode",
+                "Open Edge DevTools"
+            ]
+        },
+        {
+            "name": "Launch Edge and attach DevTools",
+            "configurations": [
+                "Launch Microsoft Edge",
+                "Open Edge DevTools"
+            ]
+        }
     ]
 }
