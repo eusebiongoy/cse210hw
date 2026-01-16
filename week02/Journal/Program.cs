@@ -1,4 +1,7 @@
 
+//Here is the journal program in which the user will be prompts to make different choices
+// starting by the date and being ask a question and then he will have to save the 
+//information in a file that he will need to see it later.
 
 using System;
 using System.IO;
