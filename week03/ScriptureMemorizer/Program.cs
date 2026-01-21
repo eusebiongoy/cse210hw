@@ -1,100 +1,142 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
-//In this program we are going to use different classes to organize our program as required, one for the
-// scripture, one for the reference, in addition this we will use other systems to perform our program
-// such as system.Collections.Generic and system (Linq to help filter words that are not yet hidden)
+//We are going to make up a memorizer scripture that help to memorize a scripture, 
+//we are going to use different classes for our program to be displayed according to the given condition.
+// one class will be for word, the other for scripture and the one for the running program.
+// beside classes we will use different system for the better performance of our program.
 
-class Program
+class Word
 {
-    static void Main()
+    public string Text { get; }
+    public bool IsHidden { get; set; }
+
+    public Word(string text)
     {
+        Text = text;
+        IsHidden = false;
+    }
 
-        Scripture scripture = new Scripture("Moroni 10: 3-5", "3 Behold, I would exhort you that when ye shall read these things, if it be wisdom in God that ye would remember how merciful the Lord hath been unto the children of men, from the creation of Adam even down until the time that ye shall receive these things, and ponder in your hearts. 4 And when ye shall receive these things, I would exhort you that yee would ask God, the Eternal Father, in the name of Christ, if these things are not true; and if ye shall ask with a sincere heart, with real intent, having faith in Christ, he will manifest the truth of it unto you, by the power of the Holy Ghost. 5 And by the power of the Holy Ghost ye may know the truth of all things ");
-
-
-        Console.Clear();
-        scripture.DisplayScripture();
-
-
-        while (true)
-        {
-            Console.WriteLine("Press enter to hide a word or type quit to exit:");
-            string userInput = Console.ReadLine();
-
-
-            if (userInput.ToLower() == "quit")
-            {
-                break;
-            }
-            else
-            {
-
-                Console.Clear();
-                scripture.HideWord();
-                scripture.DisplayScripture();
-
-
-                if (scripture.AllWordsHidden())
-                {
-                    Console.WriteLine("Congratulations, you have memorized the scripture!");
-                    break;
-                }
-            }
-        }
+    public string GetDisplayText()
+    {
+        // Replace letters/digits with underscores of the same length
+        return IsHidden ? Regex.Replace(Text, "[a-zA-Z0-9]", "_") : Text;
     }
 }
 
 class Scripture
 {
-    private string reference;
-    private string text;
-    private List<string> hiddenWords;
+    private List<Word> _words;
+    private string _reference;
+    private Random _random = new Random(); // Use a single instance of Random
 
     public Scripture(string reference, string text)
     {
-        this.reference = reference;
-        this.text = text;
-        this.hiddenWords = new List<string>();
+        _reference = reference;
+        // Simple split, consider more advanced parsing for punctuation if needed
+        _words = text.Split(' ').Select(word => new Word(word)).ToList();
     }
 
-    public void DisplayScripture()
+    public void Display()
     {
-
-        Console.WriteLine(reference);
-        string[] words = text.Split(' ');
-        foreach (string word in words)
+        Console.Clear();
+        Console.Write($"{_reference} ");
+        foreach (var word in _words)
         {
+            Console.Write(word.GetDisplayText() + " ");
+        }
+        Console.WriteLine("\n");
+    }
 
-            if (hiddenWords.Contains(word))
+    public void HideRandomWords(int count = 3) // Hide a few words at a time
+    {
+        var wordsToHide = _words.Where(word => !word.IsHidden).ToList();
+
+        if (wordsToHide.Count == 0) return;
+
+        // Ensure we don't try to hide more words than available
+        int actualCount = Math.Min(count, wordsToHide.Count);
+
+        // Randomly select indices of non-hidden words to hide
+        var indicesToHide = Enumerable.Range(0, wordsToHide.Count)
+                                      .OrderBy(x => _random.Next())
+                                      .Take(actualCount)
+                                      .ToList();
+
+        foreach (var index in indicesToHide)
+        {
+            // Find the original word object and set its status to hidden
+            // Note: This needs a better way to map back to the original list if using a filtered list
+            // The better way is to work with the original list's indices directly or use a specific tracking mechanism
+
+            // A more direct (though slightly less efficient if very large) way is:
+            var nonHiddenWords = _words.Where(w => !w.IsHidden).ToList();
+            if (nonHiddenWords.Any())
             {
-                Console.Write("_____ ");
+                nonHiddenWords[_random.Next(nonHiddenWords.Count)].IsHidden = true;
+            }
+        }
+    }
+
+    // A better approach for the HideRandomWords method would involve using the main _words list indices:
+
+    public void HideWordsByIndices(int count = 3)
+    {
+        var nonHiddenIndices = _words
+            .Select((word, index) => new { Word = word, Index = index })
+            .Where(item => !item.Word.IsHidden)
+            .Select(item => item.Index)
+            .ToList();
+
+        if (nonHiddenIndices.Count == 0) return;
+
+        int actualCount = Math.Min(count, nonHiddenIndices.Count);
+        var indicesToHide = nonHiddenIndices.OrderBy(x => _random.Next()).Take(actualCount).ToList();
+
+        foreach (var index in indicesToHide)
+        {
+            _words[index].IsHidden = true;
+        }
+    }
+
+
+    public bool IsCompletelyHidden()
+    {
+        return _words.All(word => word.IsHidden);
+    }
+}
+
+// In your Main method:
+class Program
+{
+    static void Main(string[] args)
+    {
+        Scripture scripture = new Scripture("D&C 18:14-15", "Wherefore you are called to cry repentance unto this people. And if it so be that you should labor all your days in crying repentance unto this people, and bring, save it be one soul unto me, how great shall be your joy with in the kingdom of my Father!.");
+
+        while (!scripture.IsCompletelyHidden())
+        {
+            scripture.Display();
+            Console.WriteLine("Press Enter to hide more words or type 'quit' to exit:");
+            string input = Console.ReadLine();
+
+            if (input.ToLower() == "quit")
+            {
+                break;
             }
             else
             {
-                Console.Write(word + " ");
+                scripture.HideWordsByIndices(3); // Hide 3 random words
             }
         }
-        Console.WriteLine();
-    }
 
-    public void HideWord()
-    {
-
-        string[] words = text.Split(' ');
-        Random rand = new Random();
-        int index = rand.Next(words.Length);
-        string wordToHide = words[index];
-
-
-        hiddenWords.Add(wordToHide);
-    }
-
-    public bool AllWordsHidden()
-    {
-
-        string[] words = text.Split(' ');
-        return hiddenWords.Count == words.Length;
+        if (scripture.IsCompletelyHidden())
+        {
+            Console.Clear();
+            scripture.Display();
+            Console.Clear();
+            Console.WriteLine("Congratulations, all words are hidden! You have memorized the scripture.");
+        }
     }
 }
