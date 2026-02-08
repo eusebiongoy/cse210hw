@@ -1,0 +1,3 @@
+50
+Simple|prayer|pray for my country|50|False
+Eternal|read the scripture|read at least 10 minutes|50

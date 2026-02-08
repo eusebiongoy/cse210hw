@@ -1,0 +1,4 @@
+0
+Simple|give a talk|whenever they ask i should be ready|50|False
+Eternal|read the scripture|take at least 5 minutes|50
+Checklist|attend sacrament meeting|every sunday no more working|50|400|4|0
